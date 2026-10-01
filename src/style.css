@@ -991,6 +991,7 @@ header h1 {
 /* Background music on/off (live Talk block and the recorder) */
 .btn-music { background: #fff; color: #1e3a5f; border: 3px solid #F5A623; }
 .btn-music.on { background: linear-gradient(135deg, #F5A623, #E67E22); color: #fff; }
+.btn-music:disabled { opacity: 0.55; cursor: default; }
 
 /* ===== v4: ☰ song order ===== */
 .box-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }

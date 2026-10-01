@@ -115,7 +115,7 @@ export class MusicPlayer {
   private gen = 0; // a stop() while the song is still loading cancels that start()
   wanted = false;
 
-  async start(): Promise<boolean> {
+  async start(volume = MUSIC_VOLUME): Promise<boolean> {
     this.stop(0);
     const gen = ++this.gen;
     this.wanted = true;
@@ -124,7 +124,7 @@ export class MusicPlayer {
     if (!buf || gen !== this.gen) { release(); return false; }
     const out = c.createGain();
     out.gain.setValueAtTime(0.0001, c.currentTime);
-    out.gain.linearRampToValueAtTime(MUSIC_VOLUME, c.currentTime + 0.6);
+    out.gain.linearRampToValueAtTime(volume, c.currentTime + 0.6);
     out.connect(master);
     const src = c.createBufferSource();
     src.buffer = buf;
@@ -173,9 +173,17 @@ export class ClipPlayer {
       return false;
     }
     this.duration = buf.duration;
+    // Quiet recordings come up to a normal level; loud ones are left alone.
+    let peak = 0;
+    for (let ch = 0; ch < buf.numberOfChannels; ch++) {
+      const d = buf.getChannelData(ch);
+      for (let i = 0; i < d.length; i += 4) peak = Math.max(peak, Math.abs(d[i]));
+    }
+    const lift = c.createGain();
+    lift.gain.value = peak > 0.01 ? Math.min(4, 0.9 / peak) : 1;
     const src = c.createBufferSource();
     src.buffer = buf;
-    src.connect(master);
+    src.connect(lift).connect(master);
     src.onended = () => {
       if (this.src !== src) return;
       this.src = null;
@@ -205,12 +213,14 @@ export class Recorder {
   private stream: MediaStream | null = null;
   private chunks: Blob[] = [];
 
-  async start(): Promise<void> {
-    // The browser's call-style voice processing (echo cancellation, noise
-    // suppression, auto gain) can briefly mute a pause in speech — that was the
-    // "silent gap" in the original app. We're not on a call, so switch it off.
+  // withMusic: the song is playing out of the phone's speaker, right next to
+  // the mic, so let the browser's echo canceller strip the phone's own playback
+  // out of the recording. Noise suppression and auto gain stay off: they can
+  // briefly mute a pause in speech — that was the "silent gap" in the original
+  // app. (We're not on a call, so none of it is needed for a plain recording.)
+  async start(withMusic = false): Promise<void> {
     this.stream = await navigator.mediaDevices.getUserMedia({
-      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+      audio: { echoCancellation: withMusic, noiseSuppression: false, autoGainControl: false }
     });
     this.chunks = [];
     this.rec = new MediaRecorder(this.stream);

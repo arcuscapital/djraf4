@@ -337,22 +337,27 @@ function drawMusicButton(btn: HTMLElement, on: boolean) {
   btn.classList.toggle("on", on);
   btn.textContent = on ? "🎶 Background music: ON" : "🎶 Background music: OFF";
 }
+// While recording, the song plays only as a quiet cue (5%) so the mic picks up
+// as little of it as possible; the proper level is added back on air.
+const RECORD_CUE_VOLUME = 0.05;
 function setRecordMusic(on: boolean) {
   if (on) {
     void unlockAudio();
-    void recordMusic.start();
-    if (recorder.recording) recMusicUsed = true;
+    void recordMusic.start(RECORD_CUE_VOLUME);
   } else if (recordMusic.wanted) {
     recordMusic.stop(600);
   }
   drawMusicButton(recMusicBtn, on);
 }
-recMusicBtn.addEventListener("click", () => setRecordMusic(!recordMusic.wanted));
+// The choice is made before he presses record: the mic is opened with echo
+// cancellation on or off to match, so the button is locked while recording.
+recMusicBtn.addEventListener("click", () => { if (!recorder.recording && !micStarting) setRecordMusic(!recordMusic.wanted); });
 
 function resetRecorderUI() {
   show(recMain, true);
   recMain.textContent = "⏺ Start Recording";
   setRecordMusic(false);
+  recMusicBtn.disabled = false;
   show(recMusicBtn, true);
   show(recTimer, false);
   recTimer.textContent = "0:00";
@@ -366,7 +371,7 @@ function resetRecorderUI() {
 }
 function openRecorder() {
   resetRecorderUI();
-  $("recorder-hint").textContent = "Tap the button, say your bit, then tap stop. Want music under it? Tap 🎶 Background music.";
+  $("recorder-hint").textContent = "Want music under it? Tap 🎶 Background music first. Then tap the button, say your bit, and tap stop.";
   openModal(recorderModal);
 }
 const fmt = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
@@ -382,7 +387,7 @@ recMain.addEventListener("click", async () => {
   recMain.textContent = "🎤 Tap “Allow” to use the microphone…";
   void unlockAudio(); // recording itself doesn't need the sound engine
   try {
-    await recorder.start();
+    await recorder.start(recordMusic.wanted);
   } catch {
     recMain.textContent = "⏺ Start Recording";
     alert("Couldn't use the microphone. Please allow microphone access and try again.");
@@ -392,6 +397,7 @@ recMain.addEventListener("click", async () => {
   }
   if (recorderModal.classList.contains("hidden")) { void recorder.stop(); return; } // closed while waiting
   recMusicUsed = recordMusic.wanted;
+  recMusicBtn.disabled = true;
   recSeconds = 0;
   recTimer.textContent = "0:00";
   show(recTimer, true);
