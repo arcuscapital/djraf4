@@ -337,9 +337,9 @@ function drawMusicButton(btn: HTMLElement, on: boolean) {
   btn.classList.toggle("on", on);
   btn.textContent = on ? "🎶 Background music: ON" : "🎶 Background music: OFF";
 }
-// While recording, the song plays only as a quiet cue (5%) so the mic picks up
+// While recording, the song plays only as a quiet cue (3%) so the mic picks up
 // as little of it as possible; the proper level is added back on air.
-const RECORD_CUE_VOLUME = 0.05;
+const RECORD_CUE_VOLUME = 0.03;
 function setRecordMusic(on: boolean) {
   if (on) {
     void unlockAudio();
@@ -349,8 +349,8 @@ function setRecordMusic(on: boolean) {
   }
   drawMusicButton(recMusicBtn, on);
 }
-// The choice is made before he presses record: the mic is opened with echo
-// cancellation on or off to match, so the button is locked while recording.
+// The choice is made before he presses record (the button is locked while
+// recording), so a take is either with music or without — never half and half.
 recMusicBtn.addEventListener("click", () => { if (!recorder.recording && !micStarting) setRecordMusic(!recordMusic.wanted); });
 
 function resetRecorderUI() {
@@ -387,7 +387,7 @@ recMain.addEventListener("click", async () => {
   recMain.textContent = "🎤 Tap “Allow” to use the microphone…";
   void unlockAudio(); // recording itself doesn't need the sound engine
   try {
-    await recorder.start(recordMusic.wanted);
+    await recorder.start();
   } catch {
     recMain.textContent = "⏺ Start Recording";
     alert("Couldn't use the microphone. Please allow microphone access and try again.");

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { assignSongs, autoSongsUsed } from "../src/songs";
 import { judgeRun, newRunState, type Snapshot } from "../src/runWatch";
 import { findCurrent, rebuildPool, startingAt } from "../src/songs";
+import { measure, playbackGain } from "../src/loudness";
 import { celebrate, toGoHint } from "../src/trophies";
 import type { Block, Track } from "../src/types";
 
@@ -190,6 +191,31 @@ describe("end-of-show celebration", () => {
     expect(toGoHint(1)).toBe("4 more shows to a gold record");
     expect(toGoHint(4)).toBe("1 more show to a gold record");
     expect(toGoHint(5)).toBe("Next show wins a gold record!");
+  });
+});
+
+describe("voice level on air", () => {
+  it("lifts a quiet recording to a normal level", () => {
+    expect(playbackGain(0.025, 0.2)).toBeCloseTo(4, 5); // 0.1 / 0.025
+  });
+  it("never lifts past the point where the loudest moment would distort", () => {
+    expect(playbackGain(0.02, 0.5)).toBeCloseTo(1.9, 5); // 0.95 / 0.5, not 5
+  });
+  it("caps the lift, and leaves a loud recording slightly turned down rather than off", () => {
+    expect(playbackGain(0.005, 0.05)).toBe(6);
+    expect(playbackGain(0.5, 0.9)).toBe(0.25);
+  });
+  it("leaves silence alone", () => {
+    expect(playbackGain(0, 0)).toBe(1);
+  });
+  it("measures average and peak level", () => {
+    const d = new Float32Array(400);
+    for (let i = 0; i < d.length; i++) d[i] = i % 2 ? 0.3 : -0.3;
+    d[4] = 0.8;
+    const m = measure({ numberOfChannels: 1, getChannelData: () => d });
+    expect(m.peak).toBeCloseTo(0.8, 5);
+    expect(m.rms).toBeGreaterThan(0.29);
+    expect(m.rms).toBeLessThan(0.32);
   });
 });
 

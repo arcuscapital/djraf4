@@ -1,3 +1,4 @@
+import { measure, playbackGain } from "./loudness";
 import musicUrl from "./assets/raf-music.mp4";
 
 // All of the app's own sound — jingle chime, background music, recorded
@@ -173,14 +174,10 @@ export class ClipPlayer {
       return false;
     }
     this.duration = buf.duration;
-    // Quiet recordings come up to a normal level; loud ones are left alone.
-    let peak = 0;
-    for (let ch = 0; ch < buf.numberOfChannels; ch++) {
-      const d = buf.getChannelData(ch);
-      for (let i = 0; i < d.length; i += 4) peak = Math.max(peak, Math.abs(d[i]));
-    }
+    // His voice comes out at a steady, normal level whatever distance he spoke from.
+    const { rms, peak } = measure(buf);
     const lift = c.createGain();
-    lift.gain.value = peak > 0.01 ? Math.min(4, 0.9 / peak) : 1;
+    lift.gain.value = playbackGain(rms, peak);
     const src = c.createBufferSource();
     src.buffer = buf;
     src.connect(lift).connect(master);
@@ -213,14 +210,14 @@ export class Recorder {
   private stream: MediaStream | null = null;
   private chunks: Blob[] = [];
 
-  // withMusic: the song is playing out of the phone's speaker, right next to
-  // the mic, so let the browser's echo canceller strip the phone's own playback
-  // out of the recording. Noise suppression and auto gain stay off: they can
-  // briefly mute a pause in speech — that was the "silent gap" in the original
-  // app. (We're not on a call, so none of it is needed for a plain recording.)
-  async start(withMusic = false): Promise<void> {
+  // All of the browser's call-style voice processing stays OFF. Each of echo
+  // cancellation, noise suppression and auto gain can decide a moment of sound
+  // is "not voice" and mute the mic — that was the "silent gap" in the original
+  // app, and echo cancellation did it again on Raf's phone when the song was
+  // playing (it took the music for echo and blanked his voice with it).
+  async start(): Promise<void> {
     this.stream = await navigator.mediaDevices.getUserMedia({
-      audio: { echoCancellation: withMusic, noiseSuppression: false, autoGainControl: false }
+      audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
     });
     this.chunks = [];
     this.rec = new MediaRecorder(this.stream);
