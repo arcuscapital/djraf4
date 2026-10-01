@@ -1011,3 +1011,136 @@ header h1 {
 .order-locked .order-num { background: #dfe6ec; color: #7f8c8d; }
 .order-lock { font-size: 1rem; padding: 4px 8px; opacity: 0.7; }
 
+/* ===== v5: end-of-show celebration (same colours and bounce as the opening) ===== */
+.celebrate {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: linear-gradient(160deg, #4A90E2 0%, #6a5acd 50%, #F5A623 100%);
+  overflow: hidden;
+  animation: celeIn 0.35s ease-out both;
+  transition: opacity 0.4s ease;
+}
+.celebrate.closing { opacity: 0; }
+@keyframes celeIn { from { opacity: 0; } to { opacity: 1; } }
+.cele-close {
+  position: absolute;
+  top: max(14px, env(safe-area-inset-top));
+  right: 14px;
+  z-index: 2;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1e3a5f;
+  font-size: 1.5rem;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+}
+.cele-close:active { transform: scale(0.92); }
+.cele-scene { width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.cele-title {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 6px;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  animation: titleBounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+}
+.cele-art { width: 100%; max-width: 340px; height: auto; display: block; overflow: visible; }
+.cele-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  max-width: 340px;
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 18px;
+  background: rgba(30, 20, 90, 0.55);
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.15rem;
+  animation: barUp 0.5s ease-out 1.1s both;
+}
+@keyframes barUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.cele-count { display: flex; align-items: center; gap: 6px; }
+.cele-count svg { width: 30px; height: 30px; flex: none; }
+.cele-wrap { font-size: 1rem; white-space: nowrap; }
+.cele-pop { animation: countPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 1.8s both; }
+@keyframes countPop { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.6); } }
+.cele-hint { color: #fff; font-weight: 700; font-size: 1.05rem; margin: 10px 0 0; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); animation: loadingFadeIn 0.5s ease-out 1.5s both; }
+
+/* Dance party */
+.ball-drop { animation: ballDrop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both; }
+@keyframes ballDrop { from { transform: translateY(-120px); } to { transform: translateY(0); } }
+.ball-sway { transform-origin: 150px 0; animation: ballSway 2.4s ease-in-out 1s infinite; }
+@keyframes ballSway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+.facet-a { animation: facetBlink 0.5s steps(1) infinite; }
+.facet-b { animation: facetBlink 0.5s steps(1) 0.25s infinite; }
+@keyframes facetBlink { 0% { opacity: 1; } 50% { opacity: 0.25; } }
+.glint { transform-box: fill-box; transform-origin: center; animation: twinkle 1.2s ease-in-out infinite; }
+.glint.g2 { animation-delay: 0.4s; }
+.glint.g3 { animation-delay: 0.8s; }
+.glint.g4 { animation-delay: 0.2s; }
+@keyframes twinkle { 0%, 100% { transform: scale(0.4); opacity: 0.3; } 50% { transform: scale(1.2); opacity: 1; } }
+.beams { transform-origin: 150px 46px; animation: fadeIn 0.4s ease-out 0.8s both, beamSweep 2.2s ease-in-out 1.2s infinite; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes beamSweep { 0%, 100% { transform: rotate(-14deg); } 50% { transform: rotate(14deg); } }
+.party-dj { transform-box: fill-box; transform-origin: 50% 100%; animation: djPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both; }
+@keyframes djPop { from { transform: scale(0.3); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.floatnote { animation: noteFloat 2.2s ease-in-out infinite; }
+.floatnote.n2 { animation-delay: 0.6s; }
+.floatnote.n3 { animation-delay: 1.2s; }
+.floatnote.n4 { animation-delay: 1.6s; }
+@keyframes noteFloat { 0% { transform: translateY(14px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-46px); opacity: 0; } }
+.dancer-in { transform-box: fill-box; transform-origin: 50% 100%; animation: djPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+.di1 { animation-delay: 0.6s; }
+.di2 { animation-delay: 0.75s; }
+.di3 { animation-delay: 0.9s; }
+.dancer { transform-box: fill-box; transform-origin: 50% 100%; animation: dance 0.45s ease-in-out infinite alternate; }
+.d2 { animation-duration: 0.38s; animation-delay: 0.1s; }
+.d3 { animation-duration: 0.5s; animation-delay: 0.2s; }
+@keyframes dance { from { transform: translateY(0) rotate(-6deg); } to { transform: translateY(-14px) rotate(6deg); } }
+.arm-l { transform-origin: 18px 41px; animation: armWaveL 0.4s ease-in-out infinite alternate; }
+.arm-r { transform-origin: 42px 41px; animation: armWaveR 0.4s ease-in-out 0.2s infinite alternate; }
+@keyframes armWaveL { from { transform: rotate(-22deg); } to { transform: rotate(18deg); } }
+@keyframes armWaveR { from { transform: rotate(22deg); } to { transform: rotate(-18deg); } }
+.tile { animation: tileFlash 1.2s steps(1) infinite; }
+.t2 { animation-delay: 0.24s; }
+.t3 { animation-delay: 0.48s; }
+.t4 { animation-delay: 0.72s; }
+.t5 { animation-delay: 0.96s; }
+@keyframes tileFlash { 0% { opacity: 1; } 50% { opacity: 0.35; } }
+
+/* Gold record */
+.rays { transform-origin: 150px 150px; animation: fadeIn 0.5s ease-out 0.2s both, raysSpin 14s linear infinite; }
+@keyframes raysSpin { to { transform: rotate(360deg); } }
+.rec-in { transform-box: fill-box; transform-origin: center; animation: recIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both; }
+@keyframes recIn { from { transform: scale(0) rotate(-540deg); } to { transform: scale(1) rotate(0deg); } }
+.rec-spin { transform-box: fill-box; transform-origin: center; animation: raysSpin 2.4s linear 1.1s infinite; }
+.ribbon { transform-box: fill-box; transform-origin: center; animation: unfurl 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s both; }
+@keyframes unfurl { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.conf { transform-box: fill-box; transform-origin: center; animation: confFall 2.6s linear infinite; opacity: 0.95; }
+.c2 { animation-duration: 3.1s; animation-delay: 0.4s; }
+.c3 { animation-duration: 2.3s; animation-delay: 0.9s; }
+.c4 { animation-duration: 2.9s; animation-delay: 0.2s; }
+.c5 { animation-duration: 2.5s; animation-delay: 1.3s; }
+.c6 { animation-duration: 3.3s; animation-delay: 0.6s; }
+.c7 { animation-duration: 2.7s; animation-delay: 1.1s; }
+.c8 { animation-duration: 3s; animation-delay: 1.6s; }
+.c9 { animation-duration: 2.4s; animation-delay: 0.3s; }
+.c10 { animation-duration: 2.8s; animation-delay: 1.9s; }
+@keyframes confFall { from { transform: translateY(-30px) rotate(0deg); } to { transform: translateY(350px) rotate(540deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .celebrate *, .celebrate *::before { animation-iteration-count: 1 !important; animation-duration: 0.01s !important; animation-delay: 0s !important; }
+}

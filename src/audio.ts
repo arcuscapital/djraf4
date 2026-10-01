@@ -65,6 +65,28 @@ export async function playChime(): Promise<void> {
   setTimeout(release, 1000);
 }
 
+// ---------- end-of-show fanfare ----------
+// A happy run up the scale for a dance party; a bigger one for a gold record.
+export async function playFanfare(gold: boolean): Promise<void> {
+  const c = await acquire();
+  const notes: [number, number, number][] = gold
+    ? [[523, 0, 0.14], [659, 0.14, 0.14], [784, 0.28, 0.14], [1047, 0.42, 0.3], [784, 0.75, 0.12], [1047, 0.9, 0.6]]
+    : [[523, 0, 0.12], [659, 0.12, 0.12], [784, 0.24, 0.12], [1047, 0.36, 0.4]];
+  const t0 = c.currentTime + 0.05;
+  for (const [f, at, len] of notes) {
+    const o = c.createOscillator();
+    const g = c.createGain();
+    o.type = "triangle";
+    o.frequency.value = f;
+    g.gain.setValueAtTime(0.25, t0 + at);
+    g.gain.exponentialRampToValueAtTime(0.01, t0 + at + len);
+    o.connect(g).connect(master);
+    o.start(t0 + at);
+    o.stop(t0 + at + len + 0.05);
+  }
+  setTimeout(release, 2000);
+}
+
 // ---------- the background music (Raf's song, bundled with the app) ----------
 // Played by the app itself, so it's always at the same quiet level (Spotify
 // won't let apps change the volume on Raf's phone) and loops seamlessly for

@@ -1,6 +1,7 @@
 import "./style.css";
 import { MusicPlayer, Recorder, preloadMusic, unlockAudio } from "./audio";
 import { handleRedirect, isLoggedIn, login } from "./auth";
+import { celebrateShowEnd, closeCelebration } from "./celebrate";
 import { makeReorderable } from "./listDrag";
 import { Show, TYPE_LABELS } from "./show";
 import { assignSongs, autoSongsUsed, rebuildPool } from "./songs";
@@ -45,7 +46,7 @@ const pickModal = $("pick-modal");
 const orderModal = $("order-modal");
 const allModals = [addModal, modeModal, recorderModal, songsModal, pickModal, orderModal];
 
-const VERSION_TAG = "v4 · " + BUILD_ID;
+const VERSION_TAG = "v5 · " + BUILD_ID;
 $("app-version-tag").textContent = VERSION_TAG;
 
 // ====================== BLOCK LIST ======================
@@ -873,6 +874,7 @@ function finishShow() {
   show(liveScreen, false);
   show(endScreen, true);
   updateStartLabel();
+  celebrateShowEnd();
 }
 
 function invalidateResume() { resumeFrom = null; resumeTracks = null; updateStartLabel(); }
@@ -884,6 +886,7 @@ function updateStartLabel() {
 }
 
 function exitToBuilderInternal() {
+  closeCelebration(true);
   if (current?.running) {
     resumeFrom = current.index;
     resumeTracks = computeTracks();

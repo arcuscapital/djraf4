@@ -306,6 +306,166 @@
     </div>
   </div>
 
+  <!-- ===== END-OF-SHOW CELEBRATION (dance party, or a gold record every 6th show) ===== -->
+  <div id="celebrate" class="celebrate hidden" role="dialog" aria-label="Show finished celebration">
+    <button id="celebrate-close" class="cele-close" aria-label="Close">✕</button>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <symbol id="cele-note" viewBox="0 0 40 50">
+          <ellipse cx="11" cy="40" rx="9" ry="6.5" transform="rotate(-18 11 40)" fill="currentColor"/>
+          <rect x="17" y="3" width="4.5" height="38" rx="2.2" fill="currentColor"/>
+          <path d="M21.5 3 C34 6 36.5 20 24 27 C30 19 28 8 21.5 11 Z" fill="currentColor"/>
+        </symbol>
+        <symbol id="cele-star" viewBox="0 0 20 20">
+          <path d="M10 0 L12.2 7.8 L20 10 L12.2 12.2 L10 20 L7.8 12.2 L0 10 L7.8 7.8 Z" fill="currentColor"/>
+        </symbol>
+        <symbol id="cele-rec-black" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="11.5" fill="#26232f"/><circle cx="12" cy="12" r="8.5" fill="none" stroke="#4a4656" stroke-width="1"/>
+          <circle cx="12" cy="12" r="4.2" fill="#E74C3C"/><circle cx="12" cy="12" r="1.2" fill="#fff"/>
+        </symbol>
+        <symbol id="cele-rec-gold" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="11.5" fill="#F5C33B"/><circle cx="12" cy="12" r="8.5" fill="none" stroke="#c99a1c" stroke-width="1"/>
+          <circle cx="12" cy="12" r="4.2" fill="#fff"/><circle cx="12" cy="12" r="1.2" fill="#c99a1c"/>
+        </symbol>
+      </defs>
+    </svg>
+
+    <!-- B: dance party -->
+    <div id="scene-party" class="cele-scene hidden">
+      <h2 class="cele-title">Well done, DJ!</h2>
+      <svg class="cele-art" viewBox="0 0 300 330" aria-hidden="true">
+        <g class="beams">
+          <path d="M150 46 L20 300 L80 300 Z" fill="#fff" opacity="0.16"/>
+          <path d="M150 46 L220 300 L280 300 Z" fill="#fff" opacity="0.16"/>
+          <path d="M150 46 L128 300 L172 300 Z" fill="#FFD9A0" opacity="0.18"/>
+        </g>
+        <g class="ball-drop"><g class="ball-sway">
+          <line x1="150" y1="0" x2="150" y2="22" stroke="#e8edf6" stroke-width="2"/>
+          <circle cx="150" cy="46" r="25" fill="#cfd6e6"/>
+          <g class="facet-a" fill="#ffffff"><rect x="134" y="30" width="8" height="8"/><rect x="150" y="38" width="8" height="8"/><rect x="138" y="50" width="8" height="8"/><rect x="156" y="54" width="7" height="7"/></g>
+          <g class="facet-b" fill="#8f9bb5"><rect x="146" y="26" width="8" height="8"/><rect x="132" y="42" width="7" height="7"/><rect x="160" y="42" width="7" height="7"/><rect x="148" y="58" width="8" height="7"/></g>
+          <circle cx="150" cy="46" r="25" fill="none" stroke="#8f9bb5" stroke-width="2"/>
+          <use href="#cele-star" class="glint g1" x="116" y="20" width="14" height="14" style="color:#fff"/>
+          <use href="#cele-star" class="glint g2" x="174" y="56" width="12" height="12" style="color:#FFD9A0"/>
+        </g></g>
+        <g class="party-dj">
+          <svg x="96" y="84" width="108" height="95" viewBox="0 0 240 210">
+            <circle cx="120" cy="118" r="92" fill="#9B59B6"/>
+            <circle cx="120" cy="118" r="92" fill="none" stroke="#7d3f9c" stroke-width="4"/>
+            <circle cx="42" cy="168" r="28" fill="#26232f"/><circle cx="42" cy="168" r="10" fill="#F5A623"/>
+            <circle cx="198" cy="168" r="28" fill="#26232f"/><circle cx="198" cy="168" r="10" fill="#F5A623"/>
+            <g class="dj-body-group">
+              <path d="M96 128 C78 138 62 150 50 160" fill="none" stroke="#4A90E2" stroke-width="16" stroke-linecap="round"/>
+              <circle cx="48" cy="162" r="11" fill="#FFD9A0"/>
+              <rect x="90" y="98" width="60" height="68" rx="20" fill="#4A90E2"/>
+              <circle cx="120" cy="122" r="9" fill="#F5A623"/>
+              <circle cx="120" cy="66" r="34" fill="#FFD9A0"/>
+              <circle cx="88" cy="70" r="12" fill="#F5A623"/><circle cx="152" cy="70" r="12" fill="#F5A623"/>
+              <ellipse cx="120" cy="42" rx="36" ry="24" fill="#3a72a8"/>
+              <path d="M84 60 C84 26 156 26 156 60 L156 52 C156 52 120 40 84 52 Z" fill="#2d5f8a"/>
+              <ellipse cx="94" cy="60" rx="24" ry="10" fill="#2d5f8a"/>
+              <path d="M104 66 Q110 71 116 66" fill="none" stroke="#1e3a5f" stroke-width="3.4" stroke-linecap="round"/>
+              <path d="M124 66 Q130 71 136 66" fill="none" stroke="#1e3a5f" stroke-width="3.4" stroke-linecap="round"/>
+              <path d="M104 80 Q120 95 136 80" fill="none" stroke="#1e3a5f" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="100" cy="76" r="5" fill="#ff9d9d" opacity="0.6"/><circle cx="140" cy="76" r="5" fill="#ff9d9d" opacity="0.6"/>
+            </g>
+            <g class="dj-hand-right">
+              <path d="M144 128 C162 136 178 148 190 158" fill="none" stroke="#4A90E2" stroke-width="16" stroke-linecap="round"/>
+              <circle cx="192" cy="160" r="11" fill="#FFD9A0"/>
+            </g>
+          </svg>
+        </g>
+        <use href="#cele-note" class="floatnote n1" x="36" y="112" width="22" height="28" style="color:#F5A623"/>
+        <use href="#cele-note" class="floatnote n2" x="238" y="100" width="24" height="30" style="color:#7ED321"/>
+        <use href="#cele-note" class="floatnote n3" x="252" y="168" width="18" height="22" style="color:#fff"/>
+        <use href="#cele-note" class="floatnote n4" x="22" y="176" width="18" height="22" style="color:#E74C3C"/>
+        <g class="dancer-in di1"><g class="dancer d1"><svg x="30" y="186" width="66" height="110" viewBox="0 0 60 100" style="color:#E74C3C">
+          <path class="arm-l" d="M18 40 L6 16" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+          <path class="arm-r" d="M42 40 L54 16" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="30" cy="20" r="12" fill="#FFD9A0"/><path d="M24 22 Q30 28 36 22" fill="none" stroke="#1e3a5f" stroke-width="2.4" stroke-linecap="round"/>
+          <rect x="18" y="33" width="24" height="34" rx="10" fill="currentColor"/>
+          <path d="M24 66 L16 94 M36 66 L46 94" stroke="#2d5f8a" stroke-width="8" stroke-linecap="round"/>
+        </svg></g></g>
+        <g class="dancer-in di2"><g class="dancer d2"><svg x="117" y="180" width="66" height="110" viewBox="0 0 60 100" style="color:#F5A623">
+          <path class="arm-l" d="M18 40 L8 62" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+          <path class="arm-r" d="M42 40 L52 14" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="30" cy="20" r="12" fill="#FFD9A0"/><path d="M24 22 Q30 28 36 22" fill="none" stroke="#1e3a5f" stroke-width="2.4" stroke-linecap="round"/>
+          <rect x="18" y="33" width="24" height="34" rx="10" fill="currentColor"/>
+          <path d="M24 66 L22 94 M36 66 L50 86" stroke="#2d5f8a" stroke-width="8" stroke-linecap="round"/>
+        </svg></g></g>
+        <g class="dancer-in di3"><g class="dancer d3"><svg x="204" y="186" width="66" height="110" viewBox="0 0 60 100" style="color:#2ECC71">
+          <path class="arm-l" d="M18 42 L2 34" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+          <path class="arm-r" d="M42 42 L58 34" stroke="currentColor" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="30" cy="20" r="12" fill="#FFD9A0"/><path d="M24 22 Q30 28 36 22" fill="none" stroke="#1e3a5f" stroke-width="2.4" stroke-linecap="round"/>
+          <rect x="18" y="33" width="24" height="34" rx="10" fill="currentColor"/>
+          <path d="M24 66 L12 92 M36 66 L40 94" stroke="#2d5f8a" stroke-width="8" stroke-linecap="round"/>
+        </svg></g></g>
+        <rect class="tile t1" x="0" y="300" width="60" height="30" fill="#E74C3C"/>
+        <rect class="tile t2" x="60" y="300" width="60" height="30" fill="#F5A623"/>
+        <rect class="tile t3" x="120" y="300" width="60" height="30" fill="#2ECC71"/>
+        <rect class="tile t4" x="180" y="300" width="60" height="30" fill="#4A90E2"/>
+        <rect class="tile t5" x="240" y="300" width="60" height="30" fill="#9B59B6"/>
+      </svg>
+      <div class="cele-bar">
+        <span class="cele-count" title="Dance parties towards a gold record"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#cele-rec-black"/></svg><span id="party-count">1/5</span></span>
+        <span class="cele-wrap">That's a wrap!</span>
+        <span class="cele-count" title="Gold records won"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#cele-rec-gold"/></svg><span id="party-golds">0</span></span>
+      </div>
+      <p class="cele-hint" id="party-hint"></p>
+    </div>
+
+    <!-- C: gold record -->
+    <div id="scene-gold" class="cele-scene hidden">
+      <h2 class="cele-title">Gold record!</h2>
+      <svg class="cele-art" viewBox="0 0 300 330" aria-hidden="true">
+        <g class="rays" fill="#fff">
+          <path d="M150 150 L138 0 L162 0 Z" opacity="0.2"/><path d="M150 150 L138 0 L162 0 Z" opacity="0.12" transform="rotate(30 150 150)"/>
+          <path d="M150 150 L138 0 L162 0 Z" opacity="0.2" transform="rotate(60 150 150)"/><path d="M150 150 L138 0 L162 0 Z" opacity="0.12" transform="rotate(90 150 150)"/>
+          <path d="M150 150 L138 0 L162 0 Z" opacity="0.2" transform="rotate(120 150 150)"/><path d="M150 150 L138 0 L162 0 Z" opacity="0.12" transform="rotate(150 150 150)"/>
+          <path d="M150 150 L138 0 L162 0 Z" opacity="0.2" transform="rotate(180 150 150)"/><path d="M150 150 L138 0 L162 0 Z" opacity="0.12" transform="rotate(210 150 150)"/>
+          <path d="M150 150 L138 0 L162 0 Z" opacity="0.2" transform="rotate(240 150 150)"/><path d="M150 150 L138 0 L162 0 Z" opacity="0.12" transform="rotate(270 150 150)"/>
+          <path d="M150 150 L138 0 L162 0 Z" opacity="0.2" transform="rotate(300 150 150)"/><path d="M150 150 L138 0 L162 0 Z" opacity="0.12" transform="rotate(330 150 150)"/>
+        </g>
+        <use href="#cele-star" class="glint g1" x="34" y="40" width="22" height="22" style="color:#FFD9A0"/>
+        <use href="#cele-star" class="glint g2" x="244" y="36" width="18" height="18" style="color:#fff"/>
+        <use href="#cele-star" class="glint g3" x="26" y="226" width="16" height="16" style="color:#fff"/>
+        <use href="#cele-star" class="glint g4" x="256" y="214" width="22" height="22" style="color:#FFD9A0"/>
+        <g class="rec-in"><g class="rec-spin">
+          <circle cx="150" cy="150" r="100" fill="#E8B62C"/>
+          <circle cx="150" cy="150" r="90" fill="none" stroke="#c99a1c" stroke-width="2"/>
+          <circle cx="150" cy="150" r="78" fill="none" stroke="#c99a1c" stroke-width="2"/>
+          <circle cx="150" cy="150" r="66" fill="none" stroke="#c99a1c" stroke-width="2"/>
+          <circle cx="150" cy="150" r="54" fill="none" stroke="#c99a1c" stroke-width="2"/>
+          <path d="M84 104 A80 80 0 0 1 150 70" fill="none" stroke="#fff4c2" stroke-width="6" stroke-linecap="round"/>
+          <path d="M216 196 A80 80 0 0 1 180 224" fill="none" stroke="#fff4c2" stroke-width="4" stroke-linecap="round" opacity="0.7"/>
+          <circle cx="150" cy="150" r="38" fill="#E74C3C"/>
+          <use href="#cele-star" x="128" y="128" width="44" height="44" style="color:#fff"/>
+          <circle cx="150" cy="150" r="4" fill="#26232f"/>
+        </g></g>
+        <g class="ribbon">
+          <path d="M40 262 L260 262 L246 284 L260 306 L40 306 L54 284 Z" fill="#E74C3C"/>
+          <text x="150" y="291" text-anchor="middle" font-size="21" font-weight="800" fill="#fff">Best DJ ever!</text>
+        </g>
+        <rect class="conf c1" x="20" y="0" width="9" height="6" fill="#F5A623"/>
+        <rect class="conf c2" x="60" y="0" width="9" height="6" fill="#fff"/>
+        <rect class="conf c3" x="100" y="0" width="9" height="6" fill="#E74C3C"/>
+        <rect class="conf c4" x="140" y="0" width="9" height="6" fill="#2ECC71"/>
+        <rect class="conf c5" x="180" y="0" width="9" height="6" fill="#FFD9A0"/>
+        <rect class="conf c6" x="220" y="0" width="9" height="6" fill="#4A90E2"/>
+        <rect class="conf c7" x="260" y="0" width="9" height="6" fill="#fff"/>
+        <rect class="conf c8" x="80" y="0" width="9" height="6" fill="#9B59B6"/>
+        <rect class="conf c9" x="200" y="0" width="9" height="6" fill="#F5A623"/>
+        <rect class="conf c10" x="120" y="0" width="9" height="6" fill="#E74C3C"/>
+      </svg>
+      <div class="cele-bar">
+        <span class="cele-count"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#cele-rec-black"/></svg><span>5/5</span></span>
+        <span class="cele-wrap">That's a wrap!</span>
+        <span class="cele-count cele-pop" title="Gold records won"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#cele-rec-gold"/></svg><span id="gold-golds">1</span></span>
+      </div>
+      <p class="cele-hint" id="gold-hint"></p>
+    </div>
+  </div>
+
     <script type="module" src="/src/main.ts"></script>
 </body>
 </html>

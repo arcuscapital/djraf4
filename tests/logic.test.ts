@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { assignSongs, autoSongsUsed } from "../src/songs";
 import { judgeRun, newRunState, type Snapshot } from "../src/runWatch";
 import { findCurrent, rebuildPool, startingAt } from "../src/songs";
+import { celebrate, toGoHint } from "../src/trophies";
 import type { Block, Track } from "../src/types";
 
 const t = (n: number): Track => ({ uri: `spotify:track:${n}`, name: `Song ${n}`, artist: "A", durationMs: 180000 });
@@ -168,6 +169,27 @@ describe("reordering songs (☰)", () => {
     const m = assignSongs(picked, rebuildPool(rotated, rows, new Set(), manual), 0);
     expect(names(m, "a")).toEqual(["Song 3", "Song 10"]);
     expect(names(m, "b")).toEqual(["Song 2", "Song 1"]);
+  });
+});
+
+describe("end-of-show celebration", () => {
+  it("five dance parties, then a gold record, then it starts again", () => {
+    let t = { parties: 0, golds: 16 };
+    const kinds: string[] = [];
+    for (let i = 0; i < 12; i++) { const c = celebrate(t); kinds.push(c.kind + ":" + c.trophies.parties + "/" + c.trophies.golds); t = c.trophies; }
+    expect(kinds).toEqual([
+      "party:1/16", "party:2/16", "party:3/16", "party:4/16", "party:5/16", "gold:0/17",
+      "party:1/17", "party:2/17", "party:3/17", "party:4/17", "party:5/17", "gold:0/18"
+    ]);
+  });
+  it("copes with missing or odd saved numbers", () => {
+    expect(celebrate({ parties: NaN, golds: -3 })).toEqual({ kind: "party", trophies: { parties: 1, golds: 0 } });
+    expect(celebrate({ parties: 9, golds: 2 }).kind).toBe("gold");
+  });
+  it("tells him how many more shows until gold", () => {
+    expect(toGoHint(1)).toBe("4 more shows to a gold record");
+    expect(toGoHint(4)).toBe("1 more show to a gold record");
+    expect(toGoHint(5)).toBe("Next show wins a gold record!");
   });
 });
 

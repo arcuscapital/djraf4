@@ -1,12 +1,12 @@
 {
-  "name": "djraf3",
+  "name": "djraf4",
   "private": true,
-  "version": "4.0.0",
+  "version": "5.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 5064 --strictPort",
+    "dev": "vite --port 5066 --strictPort",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --port 5065 --strictPort",
+    "preview": "vite preview --port 5067 --strictPort",
     "test": "vitest run"
   },
   "devDependencies": {
