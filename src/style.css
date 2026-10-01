@@ -1052,8 +1052,9 @@ header h1 {
   font-weight: 800;
   margin: 0 0 6px;
   text-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-  animation: titleBounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+  animation: titleBounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both, titleWiggle 1.6s ease-in-out 1.2s infinite;
 }
+@keyframes titleWiggle { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
 .cele-art { width: 100%; max-width: 340px; height: auto; display: block; overflow: visible; }
 .cele-bar {
   display: flex;
@@ -1084,9 +1085,8 @@ header h1 {
 @keyframes ballDrop { from { transform: translateY(-120px); } to { transform: translateY(0); } }
 .ball-sway { transform-origin: 150px 0; animation: ballSway 2.4s ease-in-out 1s infinite; }
 @keyframes ballSway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
-.facet-a { animation: facetBlink 0.5s steps(1) infinite; }
-.facet-b { animation: facetBlink 0.5s steps(1) 0.25s infinite; }
-@keyframes facetBlink { 0% { opacity: 1; } 50% { opacity: 0.25; } }
+.ball-spin { animation: ballSpin 0.9s linear infinite; }
+@keyframes ballSpin { from { transform: translateX(0); } to { transform: translateX(-36px); } }
 .glint { transform-box: fill-box; transform-origin: center; animation: twinkle 1.2s ease-in-out infinite; }
 .glint.g2 { animation-delay: 0.4s; }
 .glint.g3 { animation-delay: 0.8s; }
@@ -1126,7 +1126,13 @@ header h1 {
 @keyframes raysSpin { to { transform: rotate(360deg); } }
 .rec-in { transform-box: fill-box; transform-origin: center; animation: recIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both; }
 @keyframes recIn { from { transform: scale(0) rotate(-540deg); } to { transform: scale(1) rotate(0deg); } }
-.rec-spin { transform-box: fill-box; transform-origin: center; animation: raysSpin 2.4s linear 1.1s infinite; }
+.rec-spin { transform-box: fill-box; transform-origin: center; animation: recScratch 2.4s ease-in-out 1.1s infinite; }
+/* spins like a DJ is playing it: forward, a quick scratch back, then on */
+@keyframes recScratch { 0% { transform: rotate(0deg); } 50% { transform: rotate(320deg); } 60% { transform: rotate(250deg); } 70% { transform: rotate(310deg); } 78% { transform: rotate(270deg); } 100% { transform: rotate(720deg); } }
+.rec-beat { transform-box: fill-box; transform-origin: center; animation: recBeat 0.5s ease-in-out 1.1s infinite alternate; }
+@keyframes recBeat { from { transform: scale(1); } to { transform: scale(1.06); } }
+.tonearm { transform-origin: 262px 56px; animation: fadeIn 0.4s ease-out 1s both, armBob 0.5s ease-in-out 1.1s infinite alternate; }
+@keyframes armBob { from { transform: rotate(0deg); } to { transform: rotate(3deg); } }
 .ribbon { transform-box: fill-box; transform-origin: center; animation: unfurl 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 1.1s both; }
 @keyframes unfurl { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 .conf { transform-box: fill-box; transform-origin: center; animation: confFall 2.6s linear infinite; opacity: 0.95; }
@@ -1141,6 +1147,58 @@ header h1 {
 .c10 { animation-duration: 2.8s; animation-delay: 1.9s; }
 @keyframes confFall { from { transform: translateY(-30px) rotate(0deg); } to { transform: translateY(350px) rotate(540deg); } }
 
-@media (prefers-reduced-motion: reduce) {
-  .celebrate *, .celebrate *::before { animation-iteration-count: 1 !important; animation-duration: 0.01s !important; animation-delay: 0s !important; }
+/* Livelier: coloured spotlights, light spots circling the room, notes bursting
+   out (like the opening's radio) and sparkles. Plays whatever the phone's
+   "remove animations" setting is, the same as the opening animation. */
+.spot-l { transform-origin: 0 0; animation: fadeIn 0.4s ease-out 0.5s both, spotL 2.6s ease-in-out 0.9s infinite; }
+.spot-r { transform-origin: 300px 0; animation: fadeIn 0.4s ease-out 0.5s both, spotR 2.6s ease-in-out 0.9s infinite; }
+@keyframes spotL { 0%, 100% { transform: rotate(-20deg); } 50% { transform: rotate(16deg); } }
+@keyframes spotR { 0%, 100% { transform: rotate(20deg); } 50% { transform: rotate(-16deg); } }
+.orbit { transform-origin: 150px 46px; animation: fadeIn 0.5s ease-out 0.9s both, raysSpin 9s linear infinite; }
+.dot { transform-box: fill-box; transform-origin: center; animation: twinkle 1s ease-in-out infinite; }
+.dt2 { animation-delay: 0.25s; }
+.dt3 { animation-delay: 0.5s; }
+.dt4 { animation-delay: 0.75s; }
+.burst { transform-box: fill-box; transform-origin: center; opacity: 0; animation: burstUp 2.2s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+.bu1 { animation-delay: 0.9s; }
+.bu2 { animation-delay: 1.05s; }
+.bu3 { animation-delay: 1.2s; }
+.bu4 { animation-delay: 1.35s; }
+.bu5 { animation-delay: 1.5s; }
+@keyframes burstUp {
+  0% { transform: translate(0, 0) scale(0.3) rotate(0deg); opacity: 0; }
+  15% { opacity: 1; }
+  55% { transform: translate(calc(var(--dx) * 0.7), calc(var(--dy) * 0.75)) scale(1.15) rotate(var(--r)); opacity: 1; }
+  85%, 100% { transform: translate(var(--dx), var(--dy)) scale(0.9) rotate(var(--r)); opacity: 0; }
 }
+.cspark { transform-box: fill-box; transform-origin: center; opacity: 0; animation: csparkPop 1.8s ease-out infinite; }
+.cs1 { animation-delay: 0.6s; }
+.cs2 { animation-delay: 1s; }
+.cs3 { animation-delay: 1.4s; }
+.cs4 { animation-delay: 1.8s; }
+@keyframes csparkPop {
+  0% { transform: scale(0) rotate(0deg); opacity: 0; }
+  15% { transform: scale(1.3) rotate(25deg); opacity: 1; }
+  40%, 100% { transform: scale(0.4) rotate(45deg); opacity: 0; }
+}
+.shine { animation: shineSweep 2.6s ease-in-out 1.2s infinite; }
+@keyframes shineSweep { 0% { transform: translateX(-90px); } 45%, 100% { transform: translateX(300px); } }
+
+/* The moonwalker: glides backwards across the floor with sliding steps, turns
+   round, and moonwalks back. Hand on his hat, like Michael Jackson. */
+.moonwalk { transform-box: fill-box; transform-origin: center; animation: moonwalk 4.4s linear 1.2s infinite; }
+@keyframes moonwalk {
+  0% { transform: translateX(22px) scaleX(1); }
+  46% { transform: translateX(-30px) scaleX(1); }
+  50% { transform: translateX(-30px) scaleX(-1); }
+  96% { transform: translateX(22px) scaleX(-1); }
+  100% { transform: translateX(22px) scaleX(1); }
+}
+.mw-lean { transform-box: fill-box; transform-origin: 50% 100%; animation: mwLean 0.55s ease-in-out infinite alternate; }
+@keyframes mwLean { from { transform: rotate(4deg) translateY(0); } to { transform: rotate(7deg) translateY(-2px); } }
+.mw-leg1 { transform-origin: 25px 64px; animation: mwStep 0.55s ease-in-out infinite alternate; }
+.mw-leg2 { transform-origin: 35px 64px; animation: mwStep 0.55s ease-in-out -0.55s infinite alternate; }
+@keyframes mwStep { from { transform: rotate(-14deg) translateY(0); } to { transform: rotate(12deg) translateY(-3px); } }
+.mw-arm, .mw-hat { transform-origin: 41px 40px; animation: mwHat 1.1s ease-in-out infinite alternate; }
+@keyframes mwHat { from { transform: rotate(0deg); } to { transform: rotate(-4deg); } }
+

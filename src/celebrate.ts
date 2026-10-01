@@ -1,6 +1,6 @@
 import { playFanfare } from "./audio";
 import { loadTrophies, saveTrophies } from "./storage";
-import { celebrate, PARTIES_PER_GOLD, toGoHint } from "./trophies";
+import { celebrate, PARTIES_PER_GOLD, toGoHint, type Celebration } from "./trophies";
 
 // The fun bit when a show finishes: a dance party, or after five dance parties
 // a gold record. Short (about 6 seconds), and the ✕ ends it straight away. It
@@ -14,6 +14,18 @@ let timer: number | null = null;
 export function celebrateShowEnd(): void {
   const c = celebrate(loadTrophies());
   saveTrophies(c.trophies);
+  showCelebration(c, true);
+}
+
+// Add ?demo=party or ?demo=gold to the address to watch one without playing a
+// show. Nothing is counted, and it keeps playing until the ✕.
+export function previewCelebration(kind: "party" | "gold"): void {
+  const t = loadTrophies();
+  const next = celebrate(kind === "gold" ? { ...t, parties: PARTIES_PER_GOLD } : { ...t, parties: Math.min(t.parties, PARTIES_PER_GOLD - 1) });
+  showCelebration(next, false);
+}
+
+function showCelebration(c: Celebration, autoClose: boolean): void {
   const { parties, golds } = c.trophies;
   const gold = c.kind === "gold";
   $("scene-party").classList.toggle("hidden", gold);
@@ -31,7 +43,7 @@ export function celebrateShowEnd(): void {
   root.classList.remove("hidden");
   void playFanfare(gold).catch(() => {});
   if (timer !== null) clearTimeout(timer);
-  timer = window.setTimeout(() => closeCelebration(), SHOW_MS[c.kind]);
+  timer = autoClose ? window.setTimeout(() => closeCelebration(), SHOW_MS[c.kind]) : null;
 }
 
 export function closeCelebration(immediately = false): void {

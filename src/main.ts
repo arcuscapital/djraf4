@@ -1,7 +1,7 @@
 import "./style.css";
 import { MusicPlayer, Recorder, preloadMusic, unlockAudio } from "./audio";
 import { handleRedirect, isLoggedIn, login } from "./auth";
-import { celebrateShowEnd, closeCelebration } from "./celebrate";
+import { celebrateShowEnd, closeCelebration, previewCelebration } from "./celebrate";
 import { makeReorderable } from "./listDrag";
 import { Show, TYPE_LABELS } from "./show";
 import { assignSongs, autoSongsUsed, rebuildPool } from "./songs";
@@ -990,6 +990,10 @@ async function init() {
   if (isLoggedIn()) await ensureDevice();
   else showLoggedOut();
 }
+
+// ?demo=party or ?demo=gold shows the end-of-show celebration straight away.
+const demo = new URLSearchParams(location.search).get("demo");
+if (demo === "party" || demo === "gold") previewCelebration(demo);
 
 watchForUpdates(() => starting || !!current?.running || recorder.recording || !recorderModal.classList.contains("hidden"));
 runSplash();
